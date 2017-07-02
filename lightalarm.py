@@ -33,10 +33,17 @@ try:
     while(True):
         
         lightval = l.getData0();
-        ratio = float(l.getData1 ()) / lightval;
-
-        diff = float(lightval) / float(oldlightval)
-        if((diff > 1.5 or lightval > 100) and status == 0):
+	lightval1 = l.getData1();
+        #print lightval
+	#print lightval1
+	#print ""
+        if lightval > 0 and oldlightval > 0:
+	    ratio = float(lightval1) / float(lightval);
+            diff = float(lightval) / float(oldlightval)
+	else:
+	    ratio = 0;
+            diff = 0;
+        if((diff > 1.5 or lightval > 20) and status == 0):
             sys.stdout.write("läuft; lightval:" + str(lightval) + " diff: " + str(diff) + " ratio:" + str(ratio) + "\n")
             api.PostUpdate("läuft " + str(datetime.now()))
             oldlightval = lightval;
