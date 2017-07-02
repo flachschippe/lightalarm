@@ -8,7 +8,7 @@ from datetime import datetime
 import sys
 import json
 
-file = open("twitter_tokens.json", "r")
+file = open("/home/pi/dev/lightalarm/twitter_tokens.json", "r")
 tokens = json.loads(file.read())
 file.close()
 api = twitter.Api(**tokens)
