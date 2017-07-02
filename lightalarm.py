@@ -12,10 +12,6 @@ file = open("twitter_tokens.json", "r")
 tokens = json.loads(file.read())
 file.close()
 api = twitter.Api(**tokens)
-#print api.VerifyCredentials();
-
-#status = api.PostUpdate("läuft")
-#print status
 
 connectOk = False;
 while (connectOk == False):
