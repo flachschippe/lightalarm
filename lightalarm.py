@@ -16,7 +16,7 @@ api = twitter.Api(**tokens)
 connectOk = False;
 while (connectOk == False):
     try:
-        api.PostUpdate("Connect ok " + str(datetime.now()))
+        api.PostUpdate("connected" + str(datetime.now()))
         connectOk = True
     except:
         pass
