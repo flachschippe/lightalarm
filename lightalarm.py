@@ -2,11 +2,15 @@
 # -*- coding: utf-8 -*-
 from tsl256x import Lightsensor
 from time import sleep
+import time
 import twitter
 import datetime
 from datetime import datetime
 import sys
 import json
+
+updateInterval = 5.0 * 60.0
+currentTime = time.time()
 
 file = open("/home/pi/dev/lightalarm/twitter_tokens.json", "r")
 tokens = json.loads(file.read())
@@ -26,23 +30,20 @@ l = Lightsensor()
 
 l.setGain(1)
 sleep(1)
-lightval = l.getData0();
-oldlightval = lightval;
+lightval = l.getData0()
+oldlightval = lightval
 status = 0
 try:
     while(True):
         
-        lightval = l.getData0();
-	lightval1 = l.getData1();
-        #print lightval
-	#print lightval1
-	#print ""
+        lightval = l.getData0()
+        lightval1 = l.getData1()
         if lightval > 0 and oldlightval > 0:
-	    ratio = float(lightval1) / float(lightval);
+            ratio = float(lightval1) / float(lightval)
             diff = float(lightval) / float(oldlightval)
-	else:
-	    ratio = 0;
-            diff = 0;
+    else:
+        ratio = 0;
+        diff = 0;
         if((diff > 1.5 or lightval > 20) and status == 0):
             sys.stdout.write("läuft; lightval:" + str(lightval) + " diff: " + str(diff) + " ratio:" + str(ratio) + "\n")
             api.PostUpdate("läuft " + str(datetime.now()))
