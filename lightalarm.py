@@ -54,6 +54,13 @@ try:
             api.PostUpdate("fertig " + str(datetime.now()))
             oldlightval = lightval;
             status = 0
+        if (time.time() - currentTime > updateInterval):
+            currentTime = time.time()
+            if(status==1):
+                api.PostUpdate("läuft noch " + str(datetime.now()))
+            else:
+                api.PostUpdate("inaktiv " + str(datetime.now()))
+
 except KeyboardInterrupt:
     print "exit"
 
