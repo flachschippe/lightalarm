@@ -33,34 +33,35 @@ sleep(1)
 lightval = l.getData0()
 oldlightval = lightval
 status = 0
-try:
+
     while(True):
-        
-        lightval = l.getData0()
-        lightval1 = l.getData1()
-        if lightval > 0 and oldlightval > 0:
-            ratio = float(lightval1) / float(lightval)
-            diff = float(lightval) / float(oldlightval)
-    else:
-        ratio = 0;
-        diff = 0;
-        if((diff > 1.5 or lightval > 20) and status == 0):
-            sys.stdout.write("läuft; lightval:" + str(lightval) + " diff: " + str(diff) + " ratio:" + str(ratio) + "\n")
-            api.PostUpdate("läuft " + str(datetime.now()))
-            oldlightval = lightval;
-            status = 1
-        elif(diff < 0.4 and status == 1):
-            sys.stdout.write("fertig; lightval:" + str(lightval) + " diff: " + str(diff) + " ratio:" + str(ratio) + "\n")
-            api.PostUpdate("fertig " + str(datetime.now()))
-            oldlightval = lightval;
-            status = 0
-        if (time.time() - currentTime > updateInterval):
-            currentTime = time.time()
-            if(status==1):
-                api.PostUpdate("läuft noch " + str(datetime.now()))
+        try:
+            
+            lightval = l.getData0()
+            lightval1 = l.getData1()
+            if lightval > 0 and oldlightval > 0:
+                ratio = float(lightval1) / float(lightval)
+                diff = float(lightval) / float(oldlightval)
             else:
-                api.PostUpdate("inaktiv " + str(datetime.now()))
+                ratio = 0;
+                diff = 0;
+            if((diff > 1.5 or lightval > 20) and status == 0):
+                sys.stdout.write("läuft; lightval:" + str(lightval) + " diff: " + str(diff) + " ratio:" + str(ratio) + "\n")
+                api.PostUpdate("läuft " + str(datetime.now()))
+                oldlightval = lightval;
+                status = 1
+            elif(diff < 0.4 and status == 1):
+                sys.stdout.write("fertig; lightval:" + str(lightval) + " diff: " + str(diff) + " ratio:" + str(ratio) + "\n")
+                api.PostUpdate("fertig " + str(datetime.now()))
+                oldlightval = lightval;
+                status = 0
+            if (time.time() - currentTime > updateInterval):
+                currentTime = time.time()
+                if(status==1):
+                    api.PostUpdate("läuft noch " + str(datetime.now()))
+                else:
+                    api.PostUpdate("inaktiv " + str(datetime.now()))
 
-except KeyboardInterrupt:
-    print "exit"
-
+        except:
+            e = sys.exc_info()[0]
+            print e
